@@ -1,0 +1,147 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <locale.h>
+#define TAM 100
+
+typedef struct {
+	char nome[TAM], cargo[TAM];
+	int idade, cpf;
+	float salario;
+} cadastro;
+
+
+cadastro dados[TAM], *vetAux;;
+int i, j, quant;
+
+
+void cadastro_p(cadastro dados[TAM]) {
+	printf("Digite a quantidade de funcionarios que deseja cadastrar: \n");
+	scanf("%d",&quant);
+	for (i=0; i<quant; i++) {
+		printf("Digite o nome:\n");
+		scanf("%s",dados[i].nome);
+		printf("Digite o cargo: \n");
+		scanf("%s",dados[i].cargo);
+		printf("Digite o salario:\n");
+		scanf("%f",&dados[i].salario);
+		printf("Digite a idade:\n");
+		scanf("%d",&dados[i].idade);
+		printf("Digite o CPF:\n");
+		scanf("%d",&dados[i].cpf);
+		printf("***Cadastro realizado com sucesso***\n ");
+	}
+};
+void exibe(cadastro dados[TAM]) {
+	for(i=0; i<=quant-1; i++) {
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n");
+		printf("Funcionario %d:\n",i);
+		printf("Nome: %s\n",dados[i].nome);
+		printf("Cargo: %s \n",dados[i].cargo);
+		printf("Salario: %.2f\n",dados[i].salario);
+		printf("Idade: %d\n",dados[i].idade);
+		printf("CPF: %d\n",dados[i].cpf);
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+	}
+};
+
+void merge(cadastro dados[TAM], int comeco, int meio, int fim) {
+	int com1 = comeco, com2 = meio+1, comAux = 0, tam = fim-comeco+1;
+	
+	vetAux = (int*)malloc(tam * sizeof(int));
+
+	while(com1 <= meio && com2 <= fim) {
+		if(dados[com1].cpf > dados[com2].cpf) {
+			vetAux[comAux] = dados[com1];
+			com1++;
+		} else {
+			vetAux[comAux] = dados[com2];
+			com2++;
+		}
+		comAux++;
+	}
+
+	while(com1 <= meio) { //Caso ainda haja elementos na primeira metade
+		vetAux[comAux] = dados[com1];
+		comAux++;
+		com1++;
+	}
+
+	while(com2 <= fim) {   //Caso ainda haja elementos na segunda metade
+		vetAux[comAux] = dados[com2];
+		comAux++;
+		com2++;
+	}
+
+	for(comAux = comeco; comAux <= fim; comAux++) {   //Move os elementos de volta para o vetor original
+		dados[comAux] = vetAux[comAux-comeco];
+	}
+
+	free(vetAux);
+}
+
+void mergeSort(cadastro dados[TAM] , int comeco, int fim) {
+	if (comeco < fim) {
+		int meio = (fim+comeco)/2;
+
+		mergeSort(dados, comeco, meio);
+		mergeSort(dados, meio+1, fim);
+		merge(dados, comeco, meio, fim);
+	}
+}
+
+int main(cadastro dados[TAM];) {
+	setlocale(LC_ALL, "Portuguese");
+	int i;
+	printf("\n Oque deseja fazer ? \n");
+	while (i!=4) {
+		printf("\n\n -----------------");
+		printf("\n Opção 1: Cadastrar ");
+		printf("\n Opção 2: Exibe ");
+		printf("\n Opção 3: mergeSort ");
+		printf("\n Opção 4: Fechar programa \n");
+		scanf("%d",&i);
+		switch(i) {
+			case 1: {
+				system("cls");
+				printf("\n\n Opção escolhida: 1 \n");
+				cadastro_p (dados);
+				break;
+			}
+			case 2: {
+				system("cls");
+				printf("\n\n Opção escolhida: 2 \n");
+				exibe(dados);
+				break;
+			}
+			case 3: {
+				system("cls");
+				printf("\n\n Opção escolhida: 3 \n");
+				mergeSort (dados, 0, quant-1);
+				for(i=0; i<quant; i++) {
+					printf("Ordenado com sucesso!\n");
+					printf("Funcionario %d:\n",i);
+					printf("Nome: %s\n",dados[i].nome);
+					printf("Cargo: %s \n",dados[i].cargo);
+					printf("Salario: %.2f\n",dados[i].salario);
+					printf("Idade: %d\n",dados[i].idade);
+					printf("CPF: %d\n",dados[i].cpf);
+				}
+				break;
+			}
+			default: {
+			}
+			if(i>4) {
+
+				printf("\n\n nenhum Opção escolhida \n");
+				break;
+			}
+
+		}
+		if(i==4) {
+			printf("\n\n O Programa foi fechado \n");
+		}
+	}
+}
+

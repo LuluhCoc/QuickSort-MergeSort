@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <locale.h>
+#define TAM 100
+
+typedef struct {
+	char nome[TAM], cargo[TAM];
+	int idade, cpf;
+	float salario;
+} cadastro;
+
+
+cadastro dados[TAM], aux;
+int i, j, quant;
+float max;
+void Quick(cadastro dados[TAM], int inicio, int fim);
+
+void cadastro_p(cadastro dados[TAM]) {
+	printf("Digite o gasto maximo com funcionarios: \n");
+	scanf("%f",&max);
+	printf("Digite a quantidade de funcionarios que deseja cadastrar: \n");
+	scanf("%d",&quant);
+	for (i=0; i<quant; i++) {
+		printf("Digite o nome: \n");
+		scanf("%s",dados[i].nome);
+		printf("Digite o cargo: \n");
+		scanf("%s",dados[i].cargo);
+		printf("Digite o salario:\n");
+		scanf("%f",&dados[i].salario);
+		printf("Digite a idade:\n");
+		scanf("%d",&dados[i].idade);
+		printf("Digite o CPF:\n");
+		scanf("%d",&dados[i].cpf);
+		printf("***Cadastro realizado com sucesso***\n ");
+	}
+};
+void cort(cadastro dados[TAM]) {
+	float totalSalario = 0;
+	for(i=0; i<quant; i++) {
+		if(totalSalario>max) {
+			printf("Funcionario: %s deve ser demitido \n",dados[i].nome);
+		} else {
+			continue;
+		}
+		totalSalario=totalSalario+dados[i].salario;
+	}
+	if(totalSalario<max) {
+	  printf(" --Não é necessário demitir funcionario-- \n");
+	}
+
+};
+void exibe(cadastro dados[TAM]) {
+	for(i=0; i<=quant-1; i++) {
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n");
+		printf("Funcionario %d:\n",i);
+		printf("Nome: %s\n",dados[i].nome);
+		printf("Cargo: %s \n",dados[i].cargo);
+		printf("Salario: %.2f\n",dados[i].salario);
+		printf("Idade: %d\n",dados[i].idade);
+		printf("CPF: %d\n",dados[i].cpf);
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+	}
+};
+
+void Quick(cadastro dados[TAM], int inicio, int fim ) {
+	int pivo, i, j, meio;
+	i=inicio;
+	j=fim;
+
+	meio=(i+j)/2;
+	pivo=dados[meio].salario;
+
+
+	do {
+		while(dados[i].salario>pivo) {
+			i++;
+		}
+		while(dados[j].salario<pivo) {
+			j--;
+		}
+		if(i<=j) {
+			aux=dados[i];
+			dados[i]=dados[j];
+			dados[j]=aux;
+			i++;
+			j--;
+		}
+	} while(j>i);
+
+	if(inicio<j) {
+		Quick(dados,inicio,j);
+	}
+	if(i<fim) {
+		Quick(dados,i,fim);
+	}
+
+};
+int main(cadastro dados[TAM];) {
+	setlocale(LC_ALL, "Portuguese");
+	int i;
+	printf("\n Oque deseja fazer ? \n");
+	while (i!=5) {
+		printf("\n\n -----------------");
+		printf("\n Opção 1: Cadastrar ");
+		printf("\n Opção 2: Corte de Funcionario");
+		printf("\n Opção 3: Exibe ");
+		printf("\n Opção 4: QuickSort ");
+		printf("\n Opção 5: Fechar programa \n");
+		scanf("%d",&i);
+		switch(i) {
+			case 1: {
+				system("cls");
+				printf("\n\n Opção escolhida: 1 \n");
+				cadastro_p (dados);
+				break;
+			}
+			case 2: {
+				system("cls");
+				printf("\n\n Opção escolhida: 2 \n");
+				cort(dados);
+				break;
+			}
+			case 3: {
+				system("cls");
+				printf("\n\n Opção escolhida: 3 \n");
+				exibe(dados);
+				break;
+			}
+			case 4: {
+				system("cls");
+				printf("\n\n Opção escolhida: 4 \n");
+				Quick (dados, 0, quant-1);
+				for(i=0; i<quant; i++) {
+					printf("Ordenado com sucesso!\n");
+					printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n");
+					printf("Funcionario %d:\n",i);
+					printf("Nome: %s\n",dados[i].nome);
+					printf("Cargo: %s \n",dados[i].cargo);
+					printf("Salario: %.2f\n",dados[i].salario);
+					printf("Idade: %d\n",dados[i].idade);
+					printf("CPF: %d\n",dados[i].cpf);
+				}
+				break;
+			}
+			default: {
+			}
+			if(i>5) {
+
+				printf("\n\n nenhum Opção escolhida \n");
+				break;
+			}
+
+		}
+		if(i==5) {
+			printf("\n\n O Programa foi fechado \n");
+		}
+	}
+}
+

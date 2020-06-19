@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <locale.h>
+#define TAM 100
+
+typedef struct {
+	char nome[TAM], cargo[TAM], salario[TAM];
+	int idade, cpf;
+} cadastro;
+
+
+cadastro dados[TAM], aux;
+int i, j, quant;
+void Quick(cadastro dados[TAM], int inicio, int fim);
+
+void cadastro_p(cadastro dados[TAM]) {
+	printf("Digite a quantidade de funcionarios que deseja cadastrar: \n");
+	scanf("%d",&quant);
+	for (i=0; i<quant; i++) {
+		printf("Digite o nome: \n");
+		scanf("%s",dados[i].nome);
+		printf("Digite o cargo: \n");
+		scanf("%s",dados[i].cargo);
+		printf("Digite o salario:\n");
+		scanf("%s",dados[i].salario);
+		printf("Digite a idade:\n");
+		scanf("%d",&dados[i].idade);
+		printf("Digite o CPF:\n");
+		scanf("%d",&dados[i].cpf);
+		printf("***Cadastro realizado com sucesso***\n ");
+	}
+};
+void exibe(cadastro dados[TAM]) {
+	for(i=0; i<=quant-1; i++) {
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n");
+		printf("Funcionario %d:\n",i);
+		printf("Nome: %s\n",dados[i].nome);
+		printf("Cargo: %s \n",dados[i].cargo);
+		printf("Salario: %s\n",dados[i].salario);
+		printf("Idade: %d\n",dados[i].idade);
+		printf("CPF: %d\n",dados[i].cpf);
+		printf("_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_");
+	}
+};
+
+void Quick(cadastro dados[TAM], int inicio, int fim ) {
+	int pivo, i, j, meio;
+	i=inicio;
+	j=fim;
+
+	meio=(i+j)/2;
+	pivo=dados[meio].cpf;
+
+
+	do {
+		while(dados[i].cpf<pivo) {
+			i++;
+		}
+		while(dados[j].cpf>pivo) {
+			j--;
+		}
+		if(i<=j) {
+			aux=dados[i];
+			dados[i]=dados[j];
+			dados[j]=aux;
+			i++;
+			j--;
+		}
+	} while(j>i);
+
+	if(inicio<j) {
+		Quick(dados,inicio,j);
+	}
+	if(i<fim) {
+		Quick(dados,i,fim);
+	}
+
+};
+int main(cadastro dados[TAM];) {
+	setlocale(LC_ALL, "Portuguese");
+	int i;
+	printf("\n Oque deseja fazer ? \n");
+	while (i!=4) {
+		printf("\n\n -----------------");
+		printf("\n Opção 1: Cadastrar ");
+		printf("\n Opção 2: Exibe ");
+		printf("\n Opção 3: QuickSort ");
+		printf("\n Opção 4: Fechar programa \n");
+		scanf("%d",&i);
+		switch(i) {
+			case 1: {
+				system("cls");
+				printf("\n\n Opção escolhida: 1 \n");
+				cadastro_p (dados);
+				break;
+			}
+			case 2: {
+				system("cls");
+				printf("\n\n Opção escolhida: 2 \n");
+				exibe(dados);
+				break;
+			}
+			case 3: {
+				system("cls");
+				printf("\n\n Opção escolhida: 3 \n");
+				Quick (dados, 0, quant-1);
+				for(i=0; i<quant; i++) {
+					printf("Ordenado com sucesso!\n");
+					printf("Funcionario %d:\n",i);
+					printf("Nome: %s\n",dados[i].nome);
+					printf("Cargo: %s \n",dados[i].cargo);
+					printf("Salario: %s\n",dados[i].salario);
+					printf("Idade: %d\n",dados[i].idade);
+					printf("CPF: %d\n",dados[i].cpf);
+				}
+				break;
+			}
+			default: {
+			}
+			if(i>4) {
+
+				printf("\n\n nenhum Opção escolhida \n");
+				break;
+			}
+
+		}
+		if(i==4) {
+			printf("\n\n O Programa foi fechado \n");
+		}
+	}
+}
+
