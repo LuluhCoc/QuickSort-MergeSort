@@ -62,19 +62,19 @@ void merge(cadastro dados[TAM], int comeco, int meio, int fim) {
 		comAux++;
 	}
 
-	while(com1 <= meio) { //Caso ainda haja elementos na primeira metade
+	while(com1 <= meio) {
 		vetAux[comAux] = dados[com1];
 		comAux++;
 		com1++;
 	}
 
-	while(com2 <= fim) {   //Caso ainda haja elementos na segunda metade
+	while(com2 <= fim) {
 		vetAux[comAux] = dados[com2];
 		comAux++;
 		com2++;
 	}
 
-	for(comAux = comeco; comAux <= fim; comAux++) {   //Move os elementos de volta para o vetor original
+	for(comAux = comeco; comAux <= fim; comAux++) {  
 		dados[comAux] = vetAux[comAux-comeco];
 	}
 
